@@ -1,3 +1,7 @@
+/**
+ * WordNet class represents a semantic lexicon containing nouns and their relationships.
+ */
+
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.In;
@@ -7,9 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * WordNet class represents a semantic lexicon containing nouns and their relationships.
- */
 public class WordNet {
     private final Map<String, ArrayList<Integer>> noun2Id;
     private final Map<Integer, String> id2Noun;
@@ -27,11 +28,9 @@ public class WordNet {
         if (synsets == null || hypernyms == null) {
             throw new IllegalArgumentException("The file name is null.");
         }
-
         noun2Id = new HashMap<String, ArrayList<Integer>>();
         id2Noun = new HashMap<Integer, String>();
         numVertices = 0;
-
         readSynsets(synsets);
         readHypernyms(hypernyms);
     }
@@ -50,7 +49,6 @@ public class WordNet {
             if (line == null) {
                 break;
             }
-
             String[] contents = line.split(",");
             if (contents.length < 2) {
                 continue;
@@ -89,7 +87,6 @@ public class WordNet {
             if (line == null) {
                 break;
             }
-
             String[] contents = line.split(",");
             if (contents.length < 2) {
                 continue;
@@ -104,7 +101,6 @@ public class WordNet {
         if (dc.hasCycle()) {
             throw new IllegalArgumentException("The digraph have a directed cycle.");
         }
-
         int numRoot = 0;
         for (int i = 0; i < digraph.V(); i++) {
             if (digraph.outdegree(i) == 0) {
@@ -179,11 +175,10 @@ public class WordNet {
         WordNet wordNet = new WordNet(args[0], args[1]);
 
         StdOut.println(wordNet.isNoun("a"));
-        StdOut.println(wordNet.sap("a", "b"));
+        StdOut.println(wordNet.sap("1", "b"));
         StdOut.println();
         StdOut.println(wordNet.sap("b", "f"));
         StdOut.println(wordNet.distance("b", "f"));
-
         StdOut.println();
         StdOut.println(wordNet.sap("c", "f"));
         StdOut.println(wordNet.distance("c", "f"));
