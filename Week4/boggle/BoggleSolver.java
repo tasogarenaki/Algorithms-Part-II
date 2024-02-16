@@ -1,3 +1,7 @@
+/**
+ * Class to solve the Boggle game.
+ */
+
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
 
@@ -9,13 +13,19 @@ public class BoggleSolver {
     private static final int[] theCol = { -1, -1, -1, 0, 0, 1, 1, 1 };
     private final TrieNode root;
 
+    /**
+     * TrieNode class representing nodes in the trie structure.
+     */
     private class TrieNode {
         public TrieNode[] next = new TrieNode[26];   // 26 letters
         public boolean isEnd = false;
     }
 
-    // Initializes the data structure using the given array of strings as the dictionary.
-    // (You can assume each word in the dictionary contains only the uppercase letters A through Z.)
+    /**
+     * Initializes the BoggleSolver with a given dictionary.
+     *
+     * @param dictionary Array of strings representing the dictionary.
+     */
     public BoggleSolver(String[] dictionary) {
         root = new TrieNode();
         for (String s : dictionary) {
@@ -23,6 +33,11 @@ public class BoggleSolver {
         }
     }
 
+    /**
+     * Inserts a word into the trie.
+     *
+     * @param s The word to insert into the trie.
+     */
     private void insert(String s) {
         TrieNode node = root;
         for (int i = 0; i < s.length(); i++) {
@@ -35,7 +50,12 @@ public class BoggleSolver {
         node.isEnd = true;
     }
 
-    // Returns the set of all valid words in the given Boggle board, as an Iterable.
+    /**
+     * Finds all valid words on the Boggle board.
+     *
+     * @param board The Boggle board to search for words on.
+     * @return An iterable containing all valid words found on the board.
+     */
     public Iterable<String> getAllValidWords(BoggleBoard board) {
         int x = board.rows();
         int y = board.cols();
@@ -50,6 +70,17 @@ public class BoggleSolver {
         return words;
     }
 
+    /**
+     * Recursive depth-first search to find valid words on the board.
+     *
+     * @param board   The Boggle board being searched.
+     * @param i       The row index of the current cell.
+     * @param j       The column index of the current cell.
+     * @param curr    The current TrieNode being processed.
+     * @param path    The current path formed by letters.
+     * @param words   The set of words found so far.
+     * @param visited 2D array indicating visited cells on the board.
+     */
     private void dfs(BoggleBoard board, int i, int j, TrieNode curr, String path,
                      HashSet<String> words, boolean[][] visited) {
         char c = board.getLetter(i, j);
@@ -88,8 +119,12 @@ public class BoggleSolver {
         visited[i][j] = false;
     }
 
-    // Returns the score of the given word if it is in the dictionary, zero otherwise.
-    // (You can assume the word contains only the uppercase letters A through Z.)
+    /**
+     * Calculates the score of a given word.
+     *
+     * @param word The word to calculate the score for.
+     * @return The score of the word.
+     */
     public int scoreOf(String word) {
         if (contains(word)) {
             return getScore(word);
@@ -99,6 +134,12 @@ public class BoggleSolver {
         }
     }
 
+    /**
+     * Checks if the given word is in the dictionary.
+     *
+     * @param s The word to check.
+     * @return True if the word is in the dictionary, false otherwise.
+     */
     private boolean contains(String s) {
         TrieNode node = root;
         for (int i = 0; i < s.length(); i++) {
@@ -111,6 +152,12 @@ public class BoggleSolver {
         return node.isEnd;
     }
 
+    /**
+     * Gets the score of a given word.
+     *
+     * @param s The word to get the score for.
+     * @return The score of the word.
+     */
     private int getScore(String s) {
         int len = s.length();
 
@@ -134,7 +181,11 @@ public class BoggleSolver {
         }
     }
 
-
+    /**
+     * Main method to run the BoggleSolver.
+     *
+     * @param args Command line arguments (filename and board configuration).
+     */
     public static void main(String[] args) {
         In in = new In(args[0]);
         String[] dictionary = in.readAllStrings();
